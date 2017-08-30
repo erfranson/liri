@@ -1,6 +1,6 @@
 var Twitter = require('twitter');
 var request = require('request');
-var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 
 
 
@@ -11,3 +11,8 @@ var spotify = require('spotify');
   access_token_secret: 'BoHHGvLUI2k2yUzP4E1JIWCuHzcmYxwPrbzg2NuGf7GEZ',
 })
 
+
+exports.spotify = new Spotify({
+  id: 'cd501735a3d14777acc2b77df5e4120c',
+  secret: 'c4ecc8c4fe4845ab925d813202bf93ac'
+});
