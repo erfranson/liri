@@ -1,6 +1,7 @@
 var keys = require('./keys.js');
 var request = require('request');
 var moment = require('moment');
+var fs = require('fs');
 var client = keys.client;
 var action = process.argv[2];
 
@@ -84,6 +85,40 @@ function movieThis() {
 });
 };
 function doWhat() {
+	fs.readFile("random.txt", "utf8", function(err, data){
+		if(err){
+			console.log(err);
+		} 
+		var text = data.split(",");
+		var arr = [];
+		for(var i = 0; i < text.length; i++){
+			arr.push(text[i]);
+		}
+
+		var mysong = arr[1];
+		keys.spotify.search({ type: 'track', query: mysong }, function(err, data) {
+		  if (!err) {
+		  		var song = data.tracks.items[0]
+		    	var info ={
+		    		song: song.name,
+		    		artist: song.artists[0].name,
+		    		preview: song.preview_url,
+		    		album: song.album.name,
+		    		link: song.artists[0].external_urls.spotify
+		    	}
+		    	
+		    	if(info.preview === null){
+		    		info.preview = info.link;
+		    	}
+
+		    	console.log("Song: "+ info.song + "\nArtist: " +info.artist+ "\nAlbum: " + info.album +  "\nPreview: " + info.preview)
+		  } else{
+		  	return console.log('Error occurred: ' + err);
+		  }
+		});
+	
+	});
+
 	
 };
 
