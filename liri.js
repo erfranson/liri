@@ -11,7 +11,7 @@ switch (action) {
 	break;
 
 	case "spotify-this-song":
-	spotifyThis();
+	spotifyThis(process.argv[3]);
 	break;
 
 	case "movie-this":
@@ -37,8 +37,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 });
 
 };
-function spotifyThis() {
-	var mysong = process.argv[3]
+function spotifyThis(mysong) {
  	//use hyphens when looking for song with multiple words ex: hey-ya
 keys.spotify.search({ type: 'track', query: mysong }, function(err, data) {
   if (!err) {
@@ -95,28 +94,8 @@ function doWhat() {
 			arr.push(text[i]);
 		}
 
-		var mysong = arr[1];
-		keys.spotify.search({ type: 'track', query: mysong }, function(err, data) {
-		  if (!err) {
-		  		var song = data.tracks.items[0]
-		    	var info ={
-		    		song: song.name,
-		    		artist: song.artists[0].name,
-		    		preview: song.preview_url,
-		    		album: song.album.name,
-		    		link: song.artists[0].external_urls.spotify
-		    	}
-		    	
-		    	if(info.preview === null){
-		    		info.preview = info.link;
-		    	}
+		spotifyThis(arr[1]);
 
-		    	console.log("Song: "+ info.song + "\nArtist: " +info.artist+ "\nAlbum: " + info.album +  "\nPreview: " + info.preview)
-		  } else{
-		  	return console.log('Error occurred: ' + err);
-		  }
-		});
-	
 	});
 
 	
